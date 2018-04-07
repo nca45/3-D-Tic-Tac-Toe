@@ -1,0 +1,20 @@
+{
+  "name": "asn4",
+  "version": "1.0.0",
+  "description": "CMPT218 Assignment 4 Spring 2018",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Haider Ilahi, Nathan Cheung",
+  "license": "ISC",
+  "dependencies": {
+    "express.js": "^1.0.0",
+    "jquery": "^3.3.1",
+    "mongodb": "^3.0.5",
+    "socket.io": "^2.1.0"
+  },
+  "devDependencies": {
+    "node-dev": "^3.1.3"
+  }
+}

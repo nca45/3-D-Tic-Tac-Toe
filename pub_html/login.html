@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <meta name="viewport" content="minimum-scale=1.0, width=device-width, maximum-scale=1.0, user-scalable=no">
+    <title>LOGIN</title>
+    <link rel="stylesheet" href="./html_files/login_style.css">
+</head>
+<body>
+  <h1> 3-D TIC TAC TOE </h1>
+  <div id="div1">
+  	LOGIN <br>
+    <p> Username: </p>
+    <input type="text" id="username_login" name="username_login" required="" placeholder="username"> <br>
+    <p> Password: </p>
+    <input type="password" id="password_login" name="password_login" placeholder="password" required=""> <br>
+    <h1></h1>
+    <button id="loginButton"> LOGIN </button>
+  </div>
+  <div id="div2">
+  	REGISTER <br>
+  	<p> Firstname: </p>
+    <input type="text" id="fname" name="fname" value="" > <br>
+    <p> Lastname: </p>
+    <input type="text" id="lname" name="lname" value=""> <br>
+    <p> Gender: </p>
+    <label for="male">Male</label>
+    <input type="radio" name="gender" value="male" checked="checked">
+    <label for="female">Female</label>
+	<input type="radio" name="gender" value="female">
+	<label for="other">Other</label>
+	<input type="radio" name="gender" value="other"> <br>
+	<p> Age: </p>
+	<input type="number" id="age" name="age" value=""> <br>
+	<p> Email: </p>
+	<input type="email" id="email" name="email" value=""> <br>
+    <p> Username: </p>
+    <input type="text" id="username_register" name="username_register" required="" placeholder="username"> <br>
+    <p> Password: </p>
+    <input type="password" id="password_register" name="password_register" placeholder="password" required=""> <br>
+    <h1></h1>
+    <button id="registerButton"> REGISTER </button>
+  </div>
+  <script id="script1" type="text/javascript" src="/html_files/socket.io-client.min.js"></script>
+  <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.3.min.js" ></script>
+  <script type="text/javascript" src='./html_files/login_script.js'></script>
+</body>
+</html>
