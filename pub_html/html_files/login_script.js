@@ -511,6 +511,8 @@ function generateStatsPage() {
 	$('#div1').append('<h6> Games Lost: ' + user.stats.losses + '</h6>');
 	$('#div1').append('<h6> Games Drawn: ' + user.stats.draws + '</h6>');
 	$('#div1').append('<h6> </h6>');
+	$('#div1').append('<button id="deleteProfile"> DELETE PROFILE </button>');
+	$('#div1').append('<h6> </h6>');
 	$('#div1').append('<button id="logout"> LOGOUT </button>');
 	document.getElementById("div1").style.height = "auto";
 	document.getElementById("div1").style.width = "auto";
@@ -545,6 +547,16 @@ function generateStatsPage() {
 		socket.emit('end');
 		location.reload();
 	});
+
+	document.getElementById('deleteProfile').addEventListener('click', function() {
+		$.ajax({
+        	type: "DELETE",
+        	url: "/users?username=" + user.username + '&password=' + user.password,
+        	data: user,
+        	success: handleDelete
+    	});
+	});
+
 }
 
 function handleLogin(res) {
@@ -554,6 +566,15 @@ function handleLogin(res) {
 		generateStatsPage();
 	} else {
 		alert("Incorrect username or password entered. Try Again.");
+	}
+}
+
+function handleDelete(res) {
+	if (res.success) {
+		// Forward to stats page
+		location.reload();
+	} else {
+		alert("Delete failed.");
 	}
 }
 

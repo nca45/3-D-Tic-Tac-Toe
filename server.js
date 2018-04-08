@@ -184,8 +184,8 @@ io.on('connection', function (socket) {
             toPlayer.player.stats.games++;
             toPlayer.player.stats.losses++;
             // send end message
-            toPlayer.emit('end');
-            socket.emit('end');
+            toPlayer.emit('loss');
+            socket.emit('win');
           });
         });  
       });
@@ -266,25 +266,51 @@ io.on('connection', function (socket) {
 // On failure send object with success: failure which is checked on client side
 // On success send back the user object along with success: true 
 app.post('/login', function(req,res,next){
-  user = null;
-  users.forEach(function(theUser) {
-    if (theUser.username === req.body.username) {
-      user = theUser;
-    }
-  });
   login = {
     sucess: false
   }
-  if (user) {
-    if (req.body.password === user.password) {
-      login = {
-        success:true,
-        user: user
-      }
-    } 
-  }
-  res.json(login);
+  // find user in db
+  db.collection('users').findOne({username:req.body.username, password: req.body.password}, function(err, ret1) {
+    if (err) throw err;
+    if (ret1 === null || ret1 === undefined) {
+      res.json(login);
+    } else {
+      login.success = true;
+      login.user = ret1;
+      res.json(login);
+    }
+  });
 });
+
+app.delete('/users', function(req,res,next) {
+  result = {
+    success: false
+  }
+  username = req.query.username;
+  password = req.query.password;
+  user = '';
+  index = '';
+  //find the user
+  users.forEach(function (theUser,i) {
+    if ((username === theUser.username) && (password === theUser.password)) {
+      user = theUser;
+      index = i;
+    }
+  });
+  if (user === '') {
+    res.json(result);
+    return;
+  } else {
+    db.collection('users').deleteOne({username: user.username}, function(err) {
+      if (err) throw err;
+      users.splice(index,1);
+      result.success = true;
+      res.json(result);
+      return;
+    });
+  }
+});
+
 
 app.post('/register', function(req,res,next){
   user = null;
