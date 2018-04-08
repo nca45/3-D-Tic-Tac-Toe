@@ -372,6 +372,7 @@ function setUpBoard() {
 	$('#div1').append('<h4> Turn: </h4>');
 	$('#div1').append('<h4 id="turn" >' + turn + '</h4>');
 	$('#div1').append('<button id="quitGame"> QUIT GAME </button>');
+	$('#div1').append('<button id="viewstats"> VIEW OPPONENT STATS </button>');
 	$('#div1').append('<div id="div2"></div>');
 	$('#div2').append('<h6> Layer 1 </h6>');
 	$('#div2').append(layer1_html);
@@ -385,6 +386,60 @@ function setUpBoard() {
 	document.getElementById('quitGame').addEventListener('click', function() {
 		socket.emit('quit');
 	});
+	document.getElementById('viewstats').addEventListener('click', getOpponentStats);
+}
+
+function getOpponentStats(){
+
+	if(player2 === ''){
+		console.log("No player has connected yet!");
+	}
+	else{
+		$.ajax({
+
+			method:'get',
+			url: `/stats/${player2}`,
+			data:'',
+			success: printStats
+		});
+	}
+}
+
+function printStats(data){
+
+	$("#myModal").remove(); //ensure there's only 1 modal and we're not continuously adding modals
+
+	var modalBody = `<div id="myModal" class="modal">
+
+ 					<!-- Modal content -->
+ 					<div class="modal-content">
+    					<div class="modal-header">
+      						<span class="close">&times;</span>
+      						<h2>${player2}'s Game Stats</h2>
+    					</div>
+    				<div class="modal-body">
+      					<p>Games Played: ${data.games}</p>
+      					<p>Games Won: ${data.wins}</p>
+      					<p>Games Lost: ${data.losses}</p>
+      					<p>Games Tied: ${data.draws}</p>
+    				</div>
+    				</div>`
+
+	$('body').prepend(modalBody);
+
+	var modal = document.getElementById("myModal");
+	var span = document.getElementsByClassName("close")[0];
+
+	modal.style.display = "block";
+
+	span.onclick = function(){
+		modal.style.display = "none";
+	}
+	window.onclick = function(event){
+		if(event.target == modal){
+			modal.style.display = "none";
+		}
+	}
 }
 
 function activateBoard() {
