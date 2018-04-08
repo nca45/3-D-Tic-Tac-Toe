@@ -356,3 +356,18 @@ app.get('/games', function(req,res,next) {
   }
   res.json(obj);
 });
+
+app.get('/stats/:username', function(req,res,next){
+
+    var username = req.params.username;
+    var userIndex = users.map(function(e) { return e.username; }).indexOf(username); //some way to index the object array
+
+    console.log(userIndex);
+    if(userIndex == -1){
+      res.send('error');
+    }
+    else{
+      var userStats = users[userIndex].stats;
+      res.json(userStats);
+    }
+});
